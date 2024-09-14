@@ -1,0 +1,85 @@
+/*
+You are given two 0-indexed integer arrays player1 and player2, representing the number of pins that player 1 and player 2 hit in a bowling game, respectively.
+
+The bowling game consists of n turns, and the number of pins in each turn is exactly 10.
+
+Assume a player hits xi pins in the ith turn. The value of the ith turn for the player is:
+
+2xi if the player hits 10 pins in either (i - 1)th or (i - 2)th turn.
+Otherwise, it is xi.
+The score of the player is the sum of the values of their n turns.
+
+Return
+
+1 if the score of player 1 is more than the score of player 2,
+2 if the score of player 2 is more than the score of player 1, and
+0 in case of a draw.
+*/
+
+class Solution {
+public:
+    int isWinner(vector<int>& p1, vector<int>& p2) {
+        int Score1 = 0;
+        int Score2 = 0;
+
+        // Calculate Score1 for p1
+        if (p1.size() < 3) {
+            Score1 += p1[0];
+            for (int i = 1; i < p1.size(); i++) {
+                if (p1[i - 1] == 10) {
+                    Score1 += 2 * p1[i];
+                } else {
+                    Score1 += p1[i];
+                }
+            }
+        } else {
+            Score1 += p1[0];
+            if (Score1 == 10) {
+                Score1 += 2 * p1[1];
+            } else {
+                Score1 += p1[1];
+            }
+            for (int i = 2; i < p1.size(); i++) {
+                if (p1[i - 1] == 10 || p1[i - 2] == 10) {
+                    Score1 += 2 * p1[i];
+                } else {
+                    Score1 += p1[i];
+                }
+            }
+        }
+
+        if (p2.size() < 3) {
+            Score2 += p2[0]; // Correct the use of index `i` here
+            for (int i = 1; i < p2.size(); i++) {
+                if (p2[i - 1] == 10) {
+                    Score2 += 2 * p2[i];
+                } else {
+                    Score2 += p2[i];
+                }
+            }
+        } else {
+            Score2 += p2[0];
+            if (Score2 == 10) {
+                Score2 += 2 * p2[1];
+            } else {
+                Score2 += p2[1];
+            }
+            for (int i = 2; i < p2.size(); i++) {
+                if (p2[i - 1] == 10 || p2[i - 2] == 10) {
+                    Score2 += 2 * p2[i];
+                } else {
+                    Score2 += p2[i];
+                }
+            }
+        }
+
+        if (Score1 > Score2) {
+            return 1;
+        }
+        if (Score2 > Score1) {
+            return 2;
+        }
+        return 0;
+    }
+};
+
